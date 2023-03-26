@@ -1,0 +1,33 @@
+@startuml
+
+!include ./common.style
+
+autoactivate on
+
+participant Simulation as S
+participant "old: Board" as Old
+participant "c: Cell" as C
+participant "n: Neighbourhood" as N
+
+[-> S: execute()
+create "next: Board" as Next
+S -> Next
+return
+loop (i,j) in dimension x dimension
+    S -> Old: get(i,j)
+    return c
+    S -> Old: getNeighbourhood(i,j)
+    return n
+    S -> C: next(n)
+    C -> N: next(c)
+    create "next: Cell" as NC
+    N -> NC
+    return
+    return next
+    return next
+    S -> Next: set(i,j,next)
+    return
+end
+return next
+
+@enduml

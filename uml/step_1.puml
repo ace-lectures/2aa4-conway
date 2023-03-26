@@ -1,0 +1,53 @@
+@startuml
+
+!include ./common.style
+
+class Main {}
+
+
+
+package io {
+
+    class BoardReader {
+        + build(fileName: String): Board
+        - buildLine(aLine: String):
+    }
+
+}
+
+package board {
+
+    class Board {
+        - int dimension
+        --
+        + this(size: int)
+        --
+        + addLine(cells: List<Cell>)
+    }
+
+    interface Cell {}
+
+    Board .[hidden]. Cell
+}
+
+package rules {
+
+    class Simulation {
+        + this(board: Board, cycles: Integer)
+        --
+        + execute(): Board
+    }
+}
+
+
+Main ..> board.Board
+Main ..> io.BoardReader
+Main ..> rules.Simulation
+
+io.BoardReader .> board.Board
+io.BoardReader .> board.Cell
+
+board.Board <. rules.Simulation
+
+
+@enduml

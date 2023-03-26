@@ -1,0 +1,30 @@
+@startuml
+
+!include ./common.style
+
+
+package board {
+
+    interface Cell {
+        + join(n: Neighbourhood)
+
+    }
+
+    class AliveCell implements Cell {
+        + toString(): String
+    }
+    class DeadCell implements Cell {
+        + toString(): String
+    }
+}
+
+package simulation {
+
+    abstract class Neighbourhood {
+        + increase()
+    }
+}
+
+board.Cell . simulation.Neighbourhood
+
+@enduml

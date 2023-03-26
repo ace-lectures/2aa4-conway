@@ -1,0 +1,75 @@
+@startuml
+
+!include ./common.style
+
+class Main {}
+
+
+
+package io {
+
+    class BoardReader {
+        + build(fileName: String): Board
+        - buildLine(aLine: String):
+    }
+
+    enum Symbol {
+        + ALIVE
+        + DEAD
+        --
+        + {static} buildFrom(data: String): Cell
+        --
+        - code: char
+        - Class <: Cell: klass
+        - this(code: char, klass: Class)
+        - instantiate(): Cell
+    }
+
+    BoardReader ..> Symbol
+
+}
+
+package board {
+
+    class Board {
+        - int dimension
+        --
+        + this(size: int)
+        --
+        + addLine(cells: List<Cell>)
+    }
+
+    interface Cell {}
+
+    class AliveCell implements Cell {
+        + toString(): String
+    }
+    class DeadCell implements Cell {
+        + toString(): String
+    }
+
+
+    Board .[hidden]. Cell
+}
+
+package rules {
+
+    class Simulation {
+        + this(board: Board, cycles: Integer)
+        --
+        + execute(): Board
+    }
+}
+
+
+Main ..> board.Board
+Main ..> io.BoardReader
+Main ..> rules.Simulation
+
+io.BoardReader .> board.Board
+io.Symbol .> board.Cell
+
+board.Board <. rules.Simulation
+
+
+@enduml
